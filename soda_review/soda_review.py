@@ -1,10 +1,10 @@
 # Backend for Soda Review
 import time
+import bcrypt
 
-
-# Load master list for Sodas from database or file(testing locally- while developing)
-# Load master list for Users from database or file (testing locally- while developing)
-# Load master list for Reviews from database or file (testing locally- while developing)
+# Load master list for Sodas from database or file(for testing locally- while developing)
+# Load master list for Users from database or file(for testing locally- while developing)
+# Load master list for Reviews from database or file(for testing locally- while developing)
 
 # User Class
 class User:
@@ -96,17 +96,22 @@ class User:
 class Soda:
     #name
     #company
+    #submitted by user
     #picture
     #list of reviews
     #average review rating
     #average weighted review rating
-    def __init__(self, name, company=None, picture=None):
+    def __init__(self, name, company=None, submitted_by=None, picture=None):
         self.__name = name
+        self.__submitted_by = submitted_by
         self.__company = company
         self.__picture = picture
 
     def __repr__(self):
-        return f"Soda Name: {self.__name}\nSoda Company: {self.__company}\n"
+        soda_description = f"Soda Name: {self.__name}\nSoda Company: {self.__company}"
+        if self.__submitted_by != None:
+            soda_description += f"\nSubmitted by: {self.__submitted_by.get_user_name()}\n"
+        return soda_description
 
     # Start of getter functions
     def get_name(self):
@@ -199,6 +204,18 @@ class Review:
         return self.__downvotes
     # End of setter functions
 
+# Create new user 
+    # Gather User Information
+    # Register to database or file(for testing locally- while developing)
+
+# Login verification
+    # Gather login credentials
+    # Verify login credentials
+
+# Create new soda
+    
+# Create new review
+
 
 def main():
 
@@ -207,7 +224,7 @@ def main():
     print(user1)
 
     print("REGISTER NEW SODA")
-    soda1 = Soda("Coke", "Coca-Cola", None)
+    soda1 = Soda("Coke", "Coca-Cola", user1)
     print(soda1)
 
     print("---------------------------------------------------------------------------------------------")
