@@ -2,6 +2,21 @@
 import time
 import bcrypt
 
+##the paths and files that we want to open
+__sodas_database = "/home/tbumgard/workspace/github.com/tbumgard/soda_review/soda_review/database/sodas"  
+__users_database = "/home/tbumgard/workspace/github.com/tbumgard/soda_review/soda_review/database/users"
+__reviews_database = "/home/tbumgard/workspace/github.com/tbumgard/soda_review/soda_review/database/reviews"
+
+##open the files
+with open(__sodas_database) as f: 
+    sodas = f.read()    
+
+with open(__users_database) as f:
+    users = f.read()
+
+with open(__reviews_database) as f:
+    reviews = f.read()
+
 # Load master list for Sodas from database or file(for testing locally- while developing)
 # Load master list for Users from database or file(for testing locally- while developing)
 # Load master list for Reviews from database or file(for testing locally- while developing)
@@ -18,10 +33,11 @@ class User:
     #list of submitted reviews
     #number of reviews done    
     	
-    def __init__(self, user_name, password, email, picture=None, first_name=None, last_name=None):
+    def __init__(self, user_name, password, email, salt, picture=None, first_name=None, last_name=None):
         self.__user_name = user_name
         self.__password = password
         self.__email = email
+        self.__salt = salt
         self.__picture = picture
         self.__first_name = first_name
         self.__last_name = last_name
@@ -30,8 +46,8 @@ class User:
         self.__number_of_reviews = 0
     
     def __repr__(self):
-        return (f"Username: {self.__user_name}\nPassword: {self.__password}\nEmail: {self.__email}\n" + 
-                f"First Name: {self.__first_name}\nLast Name: {self.__last_name}\nDate Joined: {self.__date_joined}\n")
+        return_string = f"{self.__user_name}\t{self.__password}\t{self.__email}\t{self.__salt}\t{self.__picture}\t{self.__first_name}\t{self.__last_name}\t" + f"{self.__date_joined}\n"
+        return return_string
     
     # Start of getter functions
     def get_user_name(self):
@@ -205,8 +221,43 @@ class Review:
     # End of setter functions
 
 # Create new user 
-    # Gather User Information
-    # Register to database or file(for testing locally- while developing)
+# Gather User Information
+def gather_new_user_info():
+    
+    username = input("Username: ")
+    
+    correct_password = False
+    while not correct_password:      
+        password = input("Password: ")
+        re_enter_password = input("Re-enter Password: ")
+    
+        if re_enter_password == password:
+            correct_password = True
+        else:
+            "Incorrect."
+
+    email = input("Email: ")
+    picture = input("Picture(optional): ")
+    first_name = input("First Name(optional): ")
+    last_name = input("Last Name(optional): ")
+
+    # Encrypt password with a salt
+    bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(bytes, salt)
+
+    new_user = User(username, hash, email, salt, picture, first_name, last_name)
+
+    return new_user
+
+
+
+# Register to database or file(for testing locally- while developing)
+def record_new_user_info(user):
+    with open(__users_database, " ") as f: 
+        f.write(user)
+
+
 
 # Login verification
     # Gather login credentials
@@ -219,8 +270,8 @@ class Review:
 
 def main():
 
-    print("REGISTER NEW USER")
-    user1 = User('tbumgard', 'qwerty123', 'tbumgard@gmail.com', first_name='Trevor', last_name='Bumgardner')
+    user1 = gather_new_user_info()
+    ##record_new_user_info(user1)
     print(user1)
 
     print("REGISTER NEW SODA")
