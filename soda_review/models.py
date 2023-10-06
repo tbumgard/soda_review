@@ -15,7 +15,7 @@ class Users(Base):
     first_name = Column(String)
     last_name = Column(String)
 
-    #reviews = relationship("Reviews", back_populates="owner")
+    reviews = relationship("Reviews", back_populates="owner")
 
 class Sodas(Base):
     __tablename__ = "sodas"
@@ -24,7 +24,7 @@ class Sodas(Base):
     name = Column(String, unique=True, index=True)
     company = Column(String)    
 
-    #reviews = relationship("Reviews", back_populates="soda")
+    reviews = relationship("Reviews", back_populates="soda")
 
 class Reviews(Base):
     __tablename__ = "reviews"
@@ -37,6 +37,6 @@ class Reviews(Base):
     sodas_id = Column(Integer, ForeignKey("sodas.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     
-    #owner = relationship("User", back_populates="reviews")
-    #soda = relationship("Sodas", back_populates="reviews")
+    owner = relationship("User", back_populates="reviews")
+    soda = relationship("Sodas", back_populates="reviews")
 

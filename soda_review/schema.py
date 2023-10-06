@@ -36,7 +36,7 @@ class Users(UserBase):
     join_date: str
     first_name: str
     last_name: str
-    #reviews = list[Reviews] = []
+    reviews: list[Reviews] = []
 
     class Config:
         orm_mode = True
@@ -51,7 +51,7 @@ class SodaCreate(SodaBase):
 
 class Sodas(SodaBase):
     id: int
-    #reviews = list[Reviews] = []
+    reviews: list[Reviews] = []
 
     class Config:
         orm_mode = True

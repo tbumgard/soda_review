@@ -38,7 +38,6 @@ def create_user(database: Session, user: schema.UserCreate):
     database.refresh(db_user)
     return db_user
     
-    
 def create_soda(database: Session, soda: schema.SodaCreate):
     db_soda = models.Sodas(name=soda.name, company=soda.company)
 
@@ -47,7 +46,13 @@ def create_soda(database: Session, soda: schema.SodaCreate):
     database.refresh(db_soda)
     return db_soda
 
-    
-    
+def create_review(database: Session, review: schema.ReviewCreate):
+    db_review = models.Reviews(soda_id=review.sodas_id, user_id=review.user_id, review=review.review, rating=review.rating)
 
-    new_user = User(username, hash, email, salt, picture, first_name, last_name)
+    database.add(db_review)
+    database.commit()
+    database.refresh(db_review)
+    return db_review
+
+
+    
