@@ -297,13 +297,13 @@ def main():
 
     print("REGISTER NEW SODA")
     #soda1 = Soda("Coke", "Coca-Cola", user1)
-    print(soda1)
+    #print(soda1)
 
     print("---------------------------------------------------------------------------------------------")
     print("REGISTER NEW SODA REVIEW")
 
     #review1 = Review(soda1, user1, "THIS IS THE BOMB", 10)
-    print(review1)
+    #print(review1)
     
 
 main()
