@@ -26,6 +26,7 @@ class User:
     #username
     #password
     #email
+    #salt
     #picture - optional
     #first name - optional
     #last name - optional
@@ -90,6 +91,10 @@ class User:
     def set_email(self, email):
         self.__email = email
         return self.__email
+    
+    def set_salt(self, salt):
+        self.__salt = salt
+        return self.__salt
     
     def set_picture(self, picture):
         self.__picture = picture
@@ -254,11 +259,18 @@ def gather_new_user_info():
 
 # Register to database or file(for testing locally- while developing)
 def record_new_user_info(user):
-    with open(__users_database, " ") as f: 
-        f.write(user)
+    with open(__users_database, "a") as f: 
+        f.write(user.__repr__())
 
+def retrieve_user(username):
+    f = open(__users_database, "r")
+     
+    for line in f:
+        if line.startswith(username):
+            return line   
 
-
+    return False
+         
 # Login verification
     # Gather login credentials
     # Verify login credentials
@@ -270,18 +282,27 @@ def record_new_user_info(user):
 
 def main():
 
-    user1 = gather_new_user_info()
+##   user1 = gather_new_user_info()
     ##record_new_user_info(user1)
-    print(user1)
+##   print(user1)
+##    record_new_user_info(user1)
+
+
+##    user2 = gather_new_user_info()
+##    print(user2)
+##    record_new_user_info(user2)
+    
+    user3 = retrieve_user("tbumgard") 
+    print(user3)
 
     print("REGISTER NEW SODA")
-    soda1 = Soda("Coke", "Coca-Cola", user1)
+    #soda1 = Soda("Coke", "Coca-Cola", user1)
     print(soda1)
 
     print("---------------------------------------------------------------------------------------------")
     print("REGISTER NEW SODA REVIEW")
 
-    review1 = Review(soda1, user1, "THIS IS THE BOMB", 10)
+    #review1 = Review(soda1, user1, "THIS IS THE BOMB", 10)
     print(review1)
     
 
