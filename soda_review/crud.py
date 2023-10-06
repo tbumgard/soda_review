@@ -1,4 +1,5 @@
 import bcrypt
+import time
 
 from sqlalchemy.orm import Session
 
@@ -22,4 +23,31 @@ def get_soda_by_name_company(database: Session, soda_name: str, soda_company: st
 def get_review_by_user_about_soda(database: Session, user_id: int, soda_id: int):
     return database.query(models.Reviews).filter(models.Reviews.user_id == user_id, models.Reviews.sodas_id == soda_id).first()
 
+def create_user(database: Session, user: schema.UserCreate):
+    
+    # Encrypt password with a salt
+    bytes = user.password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(bytes, salt)
 
+    db_user = models.Users(username=user.username, password=hash, salt=salt, email=user.email, join_date=time.asctime(), 
+                           first_name=user.first_name, last_name=user.last_name)
+   
+    database.add(db_user)
+    database.commit()
+    database.refresh(db_user)
+    return db_user
+    
+    
+def create_soda(database: Session, soda: schema.SodaCreate):
+    db_soda = models.Sodas(name=soda.name, company=soda.company)
+
+    database.add(db_soda)
+    database.commit()
+    database.refresh(db_soda)
+    return db_soda
+
+    
+    
+
+    new_user = User(username, hash, email, salt, picture, first_name, last_name)

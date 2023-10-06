@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, NVARCHAR
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -8,14 +8,14 @@ class Users(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
-    password = Column(String)
-    salt = Column(String)
+    password = Column(NVARCHAR)
+    salt = Column(NVARCHAR)
     email = Column(String, unique=True, index=True)
     join_date = Column(String)
     first_name = Column(String)
     last_name = Column(String)
 
-    reviews = relationship("Reviews", back_populates="owner")
+    #reviews = relationship("Reviews", back_populates="owner")
 
 class Sodas(Base):
     __tablename__ = "sodas"
@@ -24,7 +24,7 @@ class Sodas(Base):
     name = Column(String, unique=True, index=True)
     company = Column(String)    
 
-    reviews = relationship("Reviews", back_populates="soda")
+    #reviews = relationship("Reviews", back_populates="soda")
 
 class Reviews(Base):
     __tablename__ = "reviews"
@@ -37,6 +37,6 @@ class Reviews(Base):
     sodas_id = Column(Integer, ForeignKey("sodas.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     
-    owner = relationship("User", back_populates="reviews")
-    soda = relationship("Sodas", back_populates="reviews")
+    #owner = relationship("User", back_populates="reviews")
+    #soda = relationship("Sodas", back_populates="reviews")
 
