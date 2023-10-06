@@ -1,3 +1,4 @@
+''' OLD CODE FOR WHEN I WAS CONSIDERING DOING IT LOCALLY WITH OUT A DATABASE, NEW CODE IS IN main.py, keeping this code for refrencing'''
 # Backend for Soda Review
 import time
 import bcrypt
