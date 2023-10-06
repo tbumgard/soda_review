@@ -7,6 +7,8 @@ authors = ["tbumgard <tbumgard@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 bcrypt = "^4.0.1"
+SQLAlchemy = "^2.0.21"
+pydantic = "^2.4.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
