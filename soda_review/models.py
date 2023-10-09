@@ -37,6 +37,6 @@ class Reviews(Base):
     sodas_id = Column(Integer, ForeignKey("sodas.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     
-    owner = relationship("User", back_populates="reviews")
+    owner = relationship("Users", back_populates="reviews")
     soda = relationship("Sodas", back_populates="reviews")
 
