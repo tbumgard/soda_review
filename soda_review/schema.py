@@ -28,6 +28,10 @@ class UserCreate(UserBase):
     first_name: str
     last_name: str
 
+class UserVerify(UserBase):
+#    password: str
+    pass    
+
 class Users(UserBase):
     id: int
     password: str

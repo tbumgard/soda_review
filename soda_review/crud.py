@@ -60,5 +60,7 @@ def create_review(database: Session, review: schema.ReviewCreate):
     database.refresh(db_review)
     return db_review
 
+def user_verify(database: Session, user: schema.UserVerify):
+    return database.query(models.Users).filter(models.Users.id == user.username).first()
 
     

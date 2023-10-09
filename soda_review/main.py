@@ -63,3 +63,10 @@ def get_reviews_by_soda(soda_id: int, db: Session = Depends(get_db)):
     if db_soda is None:
         raise HTTPException(status_code=404, detail="Soda not found")
     return crud.get_reviews_by_soda(database=db, soda_id=soda_id)
+
+@app.post("/login/{username}", response_model=schema.UserVerify)
+def user_verify(username: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user(database=db, user_id=crud.get_user_by_username(database=db, username=username).id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="Username does not exist.")
+    return db_user.password
