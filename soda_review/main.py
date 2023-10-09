@@ -36,7 +36,7 @@ def create_soda(soda: schema.SodaCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Soda already registered")
     return crud.create_soda(database=db, soda=soda)
 
-@app.get("/sodas/{user_id}", response_model=schema.Sodas)
+@app.get("/sodas/{soda_id}", response_model=schema.Sodas)
 def read_soda(soda_id: int, db: Session = Depends(get_db)):
     db_soda = crud.get_soda(database=db, soda_id=soda_id)
     if db_soda is None:
@@ -48,4 +48,18 @@ def create_review(review: schema.ReviewCreate, db: Session = Depends(get_db)):
     db_review = crud.get_review_by_user_about_soda(database=db, user_id=review.user_id, soda_id=review.sodas_id)
     if db_review:
         raise HTTPException(status_code=400, detail="Review already done on this soda")
-    return db_review
+    return crud.create_review(database=db, review=review)
+
+@app.get("/reviews/user/{user_id}", response_model=list[schema.Reviews])
+def get_reviews_by_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return crud.get_reviews_by_user(database=db, user_id=user_id)
+
+@app.get("/reviews/soda/{soda_id}", response_model=list[schema.Reviews])
+def get_reviews_by_soda(soda_id: int, db: Session = Depends(get_db)):
+    db_soda = crud.get_soda(database=db, soda_id=soda_id)
+    if db_soda is None:
+        raise HTTPException(status_code=404, detail="Soda not found")
+    return crud.get_reviews_by_soda(database=db, soda_id=soda_id)
